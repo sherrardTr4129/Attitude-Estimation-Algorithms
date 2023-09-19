@@ -1,294 +1,230 @@
 #pragma once
 #include <vector>
 
-template <typename T> class Matrix {
-    public:
-      Matrix(size_t num_rows, size_t num_cols, T initial_value);
-      Matrix(Matrix<T> const& other);
-      Matrix(std::vector<std::vector<T>> new_vec);
-      size_t getNumRows() const;
-      size_t getNumCols() const;
-      bool setValue(size_t row, size_t col, T value);
-      T getValue(size_t row, size_t col) const;
-      bool isErrorMatrix();
-      Matrix operator+(Matrix const& other);
-      Matrix operator-(Matrix const& other);
-      Matrix operator*(Matrix const& other);
-      Matrix operator*(T const& other);
-      bool operator==(Matrix const& other);
-      bool operator!=(Matrix const& other);
-      void transpose();
-
-    private:
-      std::vector<std::vector<T>> _matrix;
-};
-
-/**
- * @brief Creates a new matrix object with size (num_rows x num_cols) initialized to 0.
- * @param num_rows the number of rows to create the matrix with.
- * @param num_cols the number of columns to create the matrix with
-*/
-template <typename T> Matrix<T>::Matrix(size_t num_rows, size_t num_cols, T initial_value) {
-    // create empty matrix of (row, col) dimensions
-    this->_matrix = std::vector<std::vector<T>>(num_rows, std::vector<T> (num_cols, initial_value));
-}
-
-/**
- * @brief creates a new matrix object from an existing matrix object.
- * @param other the other matrix to copy into 'this' matrix.
-*/
-template <typename T> Matrix<T>::Matrix(Matrix<T> const& other) {
-    this->_matrix = other._matrix;
-}
-
-/**
- * @brief creates a new matrix object from an existing 2D vector.
- * @param new_vec the 2D vector to copy into 'this' matrix.
-*/
-template <typename T> Matrix<T>::Matrix(std::vector<std::vector<T>> new_vec) {
-    this->_matrix = new_vec;
-}
-
-/**
- * @brief returns the number of rows for a given matrix.
- * @return the number of rows for the given matrix.
-*/
-template <typename T> size_t Matrix<T>::getNumRows() const{
-    return this->_matrix.size();
-}
-
-/**
- * @brief returns the number of columns for a given matrix.
- * @return the number of columns for a given matrix.
-*/
-template <typename T> size_t Matrix<T>::getNumCols() const{
-    return this->_matrix[0].size();
-}
-
-/**
- * @brief determines if 'this' matrix is an error matrix or not
- * i.e. matrix of dimensions (1,1) with a value of -1 at index (0,0).
- * @return true if an error matrix, false otherwise.
-*/
-template <typename T> bool Matrix<T>::isErrorMatrix() {
-    if(this->getNumRows() == 1 && this->getNumCols() == 1) {
-        if(this->getValue(0,0) == -1) {
-            return true;
-        }
-        else {
-            return false;
-        }
+template <typename T, size_t rows, size_t cols> class Matrix {
+public:
+  /**
+   * @brief Matrix class constructor
+   * @param initial_value the value to initialize the matrix members to
+   */
+  Matrix(T initial_value = 0.0) {
+    for (size_t cur_row = 0; cur_row < this->getNumRows(); cur_row++) {
+      for (size_t cur_col = 0; cur_col < this->getNumCols(); cur_col++) {
+        _matrix[cur_row][cur_col] = initial_value;
+      }
     }
-    else {
-        return false;
-    }
-}
+    _rows = rows;
+    _cols = cols;
+  }
 
-/**
- * @brief method to set a particular value at a given row 
- * and column to a particular value.
- * @param row the row to set the value in
- * @param col the column to set the value in
- * @param value the value to set at the (row, col) intersection
- * @return false if an out of bounds operation was detected, true otherwise
-*/
-template <typename T> bool Matrix<T>::setValue(size_t row, size_t col, T value) {
-    
+  /**
+   * @brief Matrix class constructor
+   * @param new_mat[rows][cols] the 2D array to copy into the new matrix
+   */
+  Matrix(T new_mat[rows][cols]) {
+    for (size_t cur_row = 0; cur_row < this->getNumRows(); cur_row++) {
+      for (size_t cur_col = 0; cur_col < this->getNumCols(); cur_col++) {
+        _matrix[cur_row][cur_col] = new_mat[cur_row][cur_col];
+      }
+    }
+    _rows = rows;
+    _cols = cols;
+  }
+
+  /**
+   * @brief returns the number of rows for a given matrix.
+   * @return the number of rows for the given matrix.
+   */
+  size_t getNumRows() const { return this->_rows; }
+
+  /**
+   * @brief returns the number of columns for a given matrix.
+   * @return the number of columns for a given matrix.
+   */
+  size_t getNumCols() const { return this->_cols; }
+
+  /**
+   * @brief method to set a particular value at a given row
+   * and column to a particular value.
+   * @param row the row to set the value in
+   * @param col the column to set the value in
+   * @param value the value to set at the (row, col) intersection
+   * @return false if an out of bounds operation was detected, true otherwise
+   */
+  bool setValue(size_t row, size_t col, T value) {
     // exit early if we try to step out of bounds
-    if(!(row < this->getNumRows() || col < this->getNumCols())) {
-        return false;
+    if (!(row < this->getNumRows() || col < this->getNumCols())) {
+      return false;
     }
 
     this->_matrix[row][col] = value;
     return true;
-}
+  }
 
-/**
- * @brief method to get a particular value at a given row and column.
- * @param row the row to get the value from
- * @param col the column to get the value from
- * @return the value at (row, col).
-*/
-template <typename T> T Matrix<T>::getValue(size_t row, size_t col) const {
-    return this->_matrix[row][col];
-}
+  /**
+   * @brief method to get a particular value at a given row and column.
+   * @param row the row to get the value from
+   * @param col the column to get the value from
+   * @return the value at (row, col).
+   */
+  T getValue(size_t row, size_t col) const { return this->_matrix[row][col]; }
 
-/**
- * @brief the operator overload for addition for a 
- * given set of matricies. NOTE: this implementation assumes
- * matrices of the same dimensions have been provided. If that is
- * not the case, matrix of size 1x1 will be returned, initialized to -1.
- * @param other the addend matrix.
- * @return the resultant matrix after the addition operation.
-*/
-template <typename T> Matrix<T> Matrix<T>::operator+(Matrix<T> const& other) {
-
-    // if dimensions are not the same, return the "error matrix"
-    if(this->_matrix.size() != other._matrix.size() || 
-        this->_matrix[0].size() != other._matrix[0].size()) {
-            return Matrix<T>(1, 1, -1);
-    }
-    
+  /**
+   * @brief the operator overload for addition for a
+   * given set of matricies.
+   * @param other the addend matrix.
+   * @return the resultant matrix after the addition operation.
+   */
+  Matrix<T, rows, cols> operator+(Matrix const &other) {
     // create empty 2D vector the same size as 'this' matrix.
-    std::vector<std::vector<T>> res_vec(this->_matrix.size(), 
-        std::vector<T> (this->_matrix[0].size(), 0));
+    T res_vec[rows][cols];
 
     // add this matrix to other matrix
-    for(size_t row = 0; row < res_vec.size(); row++) {
-        for(size_t col = 0; col < res_vec[0].size(); col++) {
-            res_vec[row][col] = this->_matrix[row][col] + other._matrix[row][col];
-        }
+    for (size_t row = 0; row < this->getNumRows(); row++) {
+      for (size_t col = 0; col < this->getNumCols(); col++) {
+        res_vec[row][col] = this->_matrix[row][col] + other._matrix[row][col];
+      }
     }
 
-    Matrix<T> res_matrix(res_vec);
+    Matrix<T, rows, cols> res_matrix(res_vec);
     return res_matrix;
-}
+  }
 
-/**
- * @brief the operator overload for subtraction for a 
- * given set of matricies. NOTE: this implementation assumes
- * matrices of the same dimensions have been provided. If that is
- * not the case, matrix of size 1x1 will be returned, initialized to -1.
- * @param other the subtrahend matrix.
- * @return the resultant matrix after the subtraction.
-*/
-template <typename T> Matrix<T> Matrix<T>::operator-(Matrix<T> const& other) {
-
-    // if dimensions are not the same, return the "error matrix"
-    if(this->_matrix.size() != other._matrix.size() || 
-        this->_matrix[0].size() != other._matrix[0].size()) {
-            return Matrix<T>(1, 1, -1);
-    }
-    
+  /**
+   * @brief the operator overload for subtraction for a
+   * given set of matricies.
+   * @param other the subtrahend matrix.
+   * @return the resultant matrix after the subtraction.
+   */
+  Matrix<T, rows, cols> operator-(Matrix const &other) {
     // create empty 2D vector the same size as 'this' matrix.
-    std::vector<std::vector<T>> res_vec(this->_matrix.size(), 
-        std::vector<T> (this->_matrix[0].size(), 0));
+    T res_vec[rows][cols];
 
-    // add this matrix to other matrix
-    for(size_t row = 0; row < res_vec.size(); row++) {
-        for(size_t col = 0; col < res_vec[0].size(); col++) {
-            res_vec[row][col] = this->_matrix[row][col] - other._matrix[row][col];
-        }
+    // subtract this matrix to other matrix
+    for (size_t row = 0; row < this->getNumRows(); row++) {
+      for (size_t col = 0; col < this->getNumCols(); col++) {
+        res_vec[row][col] = this->_matrix[row][col] - other._matrix[row][col];
+      }
     }
 
-    Matrix<T> res_matrix(res_vec);
+    Matrix<T, rows, cols> res_matrix(res_vec);
     return res_matrix;
-}
+  }
 
-/**
- * @brief the overload for the multiplication operator 
- * for a given set of matricies. NOTE: if matrix dimensions are not
- * suitable for multiplication, the error matrix will be returned.
- * @param other the mutiplicant matrix.
- * @return the resultant matrix.
-*/
-template <typename T> Matrix<T> Matrix<T>::operator*(Matrix<T> const& other) {
-    // make sure number of columns of first matrix has the same number
-    // of rows as the second matrix. If not, return the 'error matrix'.
-    if(this->getNumCols() != other.getNumRows()) {
-        return Matrix<T>(1, 1, -1);
-    }
-
+  /**
+   * @brief the overload for the multiplication operator
+   * for a given set of matricies.
+   * @param other the mutiplicant matrix.
+   * @return the resultant matrix.
+   */
+  template <size_t n>
+  Matrix<T, rows, n> operator*(Matrix<T, cols, n> const &other) {
     // create empty matrix of correct size
-    Matrix<T> res_mat(this->getNumRows(), other.getNumCols(), 0);
+    Matrix<T, rows, n> res_mat(0.0);
 
     // perform multiplication
-    for(size_t i = 0; i < this->getNumRows(); i++) {
-        for(size_t j = 0; j < other.getNumCols(); j++) {
-            T sum = 0;
-            for (size_t k = 0; k < this->getNumCols(); k++) {
-                sum += this->getValue(i, k) * other.getValue(k, j);
-            }
-
-            res_mat.setValue(i, j, sum);
+    for (size_t i = 0; i < this->getNumRows(); i++) {
+      for (size_t j = 0; j < other.getNumCols(); j++) {
+        T sum = 0;
+        for (size_t k = 0; k < this->getNumCols(); k++) {
+          sum += this->getValue(i, k) * other.getValue(k, j);
         }
+
+        res_mat.setValue(i, j, sum);
+      }
     }
     return res_mat;
-}
+  }
 
-/**
- * @brief the overload for the multiplication operator 
- * for a given scalar.
- * @param other the scalar to multiply 'this' matrix by.
- * @return the resultant matrix.
-*/
-template <typename T> Matrix<T> Matrix<T>::operator*(T const& other) {
+  /**
+   * @brief the overload for the multiplication operator
+   * for a given scalar.
+   * @param other the scalar to multiply 'this' matrix by.
+   * @return the resultant matrix.
+   */
+  Matrix<T, rows, cols> operator*(T const &other) {
     // create empty matrix of correct size
-    Matrix<T> res_mat(this->getNumRows(), this->getNumCols(), 0);
+    Matrix<T, rows, cols> res_mat(0.0);
 
     // perform multiplication
-    for(size_t i = 0; i < this->getNumRows(); i++) {
-        for(size_t j = 0; j < this->getNumCols(); j++) {
-            T new_val = this->getValue(i, j) * other;
-            res_mat.setValue(i, j, new_val);
-        }
+    for (size_t i = 0; i < this->getNumRows(); i++) {
+      for (size_t j = 0; j < this->getNumCols(); j++) {
+        T new_val = this->getValue(i, j) * other;
+        res_mat.setValue(i, j, new_val);
+      }
     }
 
     return res_mat;
-}
+  }
 
-/**
- * @brief the overload for the equality operator.
- * @param other the other matrix used in the equality test.
- * @return true if equal, false otherwise.
-*/
-template <typename T> bool Matrix<T>::operator==(Matrix<T> const& other) {
+  /**
+   * @brief the overload for the equality operator.
+   * @param other the other matrix used in the equality test.
+   * @return true if equal, false otherwise.
+   */
+  bool operator==(Matrix const &other) {
     // see if dimensions are equal.
-    if(this->getNumRows() == other.getNumRows() && this->getNumCols() == other.getNumCols()) {
-        // if they are, see if all internal values are equal
-        for(size_t i = 0; i < this->getNumRows(); i++) {
-            for(size_t j = 0; j < this->getNumCols(); j++) {
+    if (this->getNumRows() == other.getNumRows() &&
+        this->getNumCols() == other.getNumCols()) {
+      // if they are, see if all internal values are equal
+      for (size_t i = 0; i < this->getNumRows(); i++) {
+        for (size_t j = 0; j < this->getNumCols(); j++) {
 
-                // exit early if not equal
-                if(this->getValue(i, j) != other.getValue(i, j)) {
-                    return false;
-                }
-            }
+          // exit early if not equal
+          if (this->getValue(i, j) != other.getValue(i, j)) {
+            return false;
+          }
         }
-        return true;
+      }
+      return true;
+    } else {
+      return false;
     }
-    else {
-        return false;
-    }
-}
+  }
 
-/**
- * @brief the overload for the inequality operator.
- * @param other the other matrix used in the inequality test.
- * @return true if not equal, false otherwise.
-*/
-template <typename T> bool Matrix<T>::operator!=(Matrix<T> const& other) {
+  /**
+   * @brief the overload for the inequality operator.
+   * @param other the other matrix used in the inequality test.
+   * @return true if not equal, false otherwise.
+   */
+  bool operator!=(Matrix const &other) {
     // see if dimensions are not equal.
-    if(this->getNumRows() != other.getNumRows() || this->getNumCols() != other.getNumCols()) {
-        return true;
-    }
-    else {
-        for(size_t i = 0; i < this->getNumRows(); i++) {
-            for(size_t j = 0; j < this->getNumCols(); j++) {
+    if (this->getNumRows() != other.getNumRows() ||
+        this->getNumCols() != other.getNumCols()) {
+      return true;
+    } else {
+      for (size_t i = 0; i < this->getNumRows(); i++) {
+        for (size_t j = 0; j < this->getNumCols(); j++) {
 
-                // exit early if not equal
-                if(this->getValue(i, j) != other.getValue(i, j)) {
-                    return true;
-                }
-            }
+          // exit early if not equal
+          if (this->getValue(i, j) != other.getValue(i, j)) {
+            return true;
+          }
         }
-        return false;
+      }
+      return false;
     }
-}
+  }
 
-/**
- * @brief transposes 'this' given matrix.
- * @return a new copy of 'this' matrix, transposed.
-*/
-template <typename T> void Matrix<T>::transpose() {
+  /**
+   * @brief transposes 'this' given matrix.
+   * @return a new copy of 'this' matrix, transposed.
+   */
+  Matrix<T, cols, rows> transpose() {
     // make new vector with swapped dimensions of 'this' Matrix
-    std::vector<std::vector<T>> transpose_vec(this->getNumCols(), std::vector<T> (this->getNumRows(), 0));
+    Matrix<T, cols, rows> transpose_mat;
 
-    for(size_t i = 0; i < this->getNumRows(); i++) {
-        for(size_t j = 0; j < this->getNumCols(); j++) {
-            transpose_vec[j][i] = this->getValue(i, j);
-        }
+    for (size_t i = 0; i < this->getNumRows(); i++) {
+      for (size_t j = 0; j < this->getNumCols(); j++) {
+        transpose_mat.setValue(j, i, this->getValue(i, j));
+      }
     }
 
-    this->_matrix = transpose_vec;
-}
+    return transpose_mat;
+  }
+
+private:
+  T _matrix[rows][cols];
+  size_t _rows = rows;
+  size_t _cols = cols;
+};
