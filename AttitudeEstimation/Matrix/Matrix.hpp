@@ -1,6 +1,8 @@
 #pragma once
 #include <cstddef>
 
+namespace structures {
+
 template <typename T, size_t rows, size_t cols> class Matrix {
 public:
   /**
@@ -49,7 +51,7 @@ public:
    * @brief copy assignment operator overload
    * @param other_mat the other matrix to copy into this matrix instance.
    */
-  Matrix<T, rows, cols>& operator=(const Matrix<T, rows, cols>& other_mat) {
+  Matrix<T, rows, cols> &operator=(const Matrix<T, rows, cols> &other_mat) {
     for (size_t cur_row = 0; cur_row < other_mat.getNumRows(); cur_row++) {
       for (size_t cur_col = 0; cur_col < other_mat.getNumCols(); cur_col++) {
         _matrix[cur_row][cur_col] = other_mat.getValue(cur_row, cur_col);
@@ -257,4 +259,5 @@ private:
   T _matrix[rows][cols];
   size_t _rows = rows;
   size_t _cols = cols;
-};
+}; // end Matrix class
+} // end namespace structures

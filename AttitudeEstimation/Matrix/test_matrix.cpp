@@ -1,6 +1,8 @@
 #include "Matrix.hpp"
 #include "gtest/gtest.h"
 
+using namespace structures;
+
 TEST(MatrixClassTesting, TestMatrixCreation) {
   // test basic creation
   Matrix<int, 5, 2> int_matrix(0.0);

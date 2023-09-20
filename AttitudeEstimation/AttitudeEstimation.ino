@@ -46,7 +46,7 @@ void loop() {
                                        {MAG_TO_uT(magnetometer.z())}};
 
   // construct matrix objects
-  Matrix<float, 3, 1> acc_mat(accelerometer_readings);
-  Matrix<float, 3, 1> gyro_mat(gyro_readings);
-  Matrix<float, 3, 1> mag_mat(magnetometer_readings);
+  structures::Matrix<float, 3, 1> acc_mat(accelerometer_readings);
+  structures::Matrix<float, 3, 1> gyro_mat(gyro_readings);
+  structures::Matrix<float, 3, 1> mag_mat(magnetometer_readings);
 }
