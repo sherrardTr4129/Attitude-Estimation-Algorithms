@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include <cstddef>
 
 template <typename T, size_t rows, size_t cols> class Matrix {
 public:
