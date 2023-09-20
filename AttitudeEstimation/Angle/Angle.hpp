@@ -91,6 +91,14 @@ public:
     }
   }
 
+  void toRadians(){
+    // TODO: implement me
+  }
+
+  void toDegrees(){
+    // TODO: implement me
+  }
+
 private:
   T _angle_value;
   angle_type_t _angle_type;
