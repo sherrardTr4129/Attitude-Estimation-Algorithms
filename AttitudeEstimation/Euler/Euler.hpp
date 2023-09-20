@@ -49,19 +49,37 @@ public:
    * @brief gets the X component of the euler angle
    * @return the X component of the euler angle
    */
-  T getX() const {return this->_x;} 
+  T getX() const { return this->_x; }
 
   /**
    * @brief gets the Y component of the euler angle
    * @return the Y component of the euler angle
    */
-  T getY() const {return this->_y;}
+  T getY() const { return this->_y; }
 
   /**
    * @brief gets the Z component of the euler angle
    * @return the Z component of the euler angle
    */
-  T getZ() const {return this->_z;}
+  T getZ() const { return this->_z; }
+
+  /**
+   * @brief sets the rotation about the x axis.
+   * @param x the new rotation about the x axis.
+   */
+  void setX(T x) { this->_x = x; }
+
+  /**
+   * @brief sets the rotation about the y axis.
+   * @param y the new rotation about the y axis.
+   */
+  void setY(T y) { this->_y = y; }
+
+  /**
+   * @brief sets the rotation about the z axis.
+   * @param z the new rotation about the z axis.
+   */
+  void setZ(T z) { this->_z = z; }
 
 private:
   T _x;
