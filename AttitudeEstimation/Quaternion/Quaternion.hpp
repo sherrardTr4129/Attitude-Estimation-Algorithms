@@ -21,11 +21,11 @@ public:
    * @brief copy constructor for the quaternion class.
    * @param other the other quaternion class to copy.
    */
-  Quaternion(Quaternion<T> const &other) {
-    this->_x = other._x;
-    this->_y = other._y;
-    this->_z = other._z;
-    this->_w = other._w;
+  Quaternion(const Quaternion<T> &other) {
+    this->_x = other.getX();
+    this->_y = other.getY();
+    this->_z = other.getZ();
+    this->_w = other.getW();
   }
 
   /**
@@ -44,10 +44,10 @@ public:
    * @returns new quaternion instance.
    */
   Quaternion &operator=(const Quaternion &other) {
-    this->_x = other._x;
-    this->_y = other._y;
-    this->_z = other._z;
-    this->_w = other._w;
+    this->_x = other.getX();
+    this->_y = other.getY();
+    this->_z = other.getZ();
+    this->_w = other.getW();
 
     return *this;
   }
@@ -56,25 +56,25 @@ public:
    * @brief gets the X component of the quaternion.
    * @returns the X component of the quaternion.
    */
-  T getX() { return this->_x; }
+  T getX() const { return this->_x; }
 
   /**
    * @brief gets the Y component of the quaternion.
    * @returns the Y component of the quaternion.
    */
-  T getY() { return this->_y; }
+  T getY() const { return this->_y; }
 
   /**
    * @brief gets the Z component of the quaternion.
    * @returns the Z component of the quaternion.
    */
-  T getZ() { return this->_z; }
+  T getZ() const { return this->_z; }
 
   /**
    * @brief gets the W component of the quaternion.
    * @returns the W component of the quaternion.
    */
-  T getW() { return this->_w; }
+  T getW() const { return this->_w; }
 
   /**
    * @brief sets the X component of the quaternion.
