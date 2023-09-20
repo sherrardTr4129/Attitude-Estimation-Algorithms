@@ -2,7 +2,6 @@
 #include <cstddef>
 
 namespace structures {
-
 template <typename T, size_t rows, size_t cols> class Matrix {
 public:
   /**
