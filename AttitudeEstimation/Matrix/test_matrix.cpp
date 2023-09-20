@@ -2,6 +2,7 @@
 #include "gtest/gtest.h"
 
 TEST(MatrixClassTesting, TestMatrixCreation) {
+  // test basic creation
   Matrix<int, 5, 2> int_matrix(0.0);
   ASSERT_EQ(5, int_matrix.getNumRows());
   ASSERT_EQ(2, int_matrix.getNumCols());
@@ -9,6 +10,17 @@ TEST(MatrixClassTesting, TestMatrixCreation) {
   Matrix<double, 1, 2> double_matrix(0.0);
   ASSERT_EQ(1, double_matrix.getNumRows());
   ASSERT_EQ(2, double_matrix.getNumCols());
+
+  // test copy constructor
+  Matrix<int, 5, 2> int_matrix_copied(int_matrix);
+  ASSERT_EQ(5, int_matrix_copied.getNumRows());
+  ASSERT_EQ(2, int_matrix_copied.getNumCols());
+
+  // test copy assignment
+  Matrix<int, 5, 2> int_matrix_copied_assigned;
+  int_matrix_copied_assigned = int_matrix_copied;
+  ASSERT_EQ(5, int_matrix_copied_assigned.getNumRows());
+  ASSERT_EQ(2, int_matrix_copied_assigned.getNumCols());
 }
 
 TEST(MatrixClassTesting, TestMatrixAccessor) {

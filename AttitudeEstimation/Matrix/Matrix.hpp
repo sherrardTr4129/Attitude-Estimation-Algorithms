@@ -32,6 +32,36 @@ public:
   }
 
   /**
+   * @brief Matrix class copy constructor
+   * @param other_mat the other matrix to copy into this matrix instance.
+   */
+  Matrix(Matrix &other_mat) {
+    for (size_t cur_row = 0; cur_row < other_mat.getNumRows(); cur_row++) {
+      for (size_t cur_col = 0; cur_col < other_mat.getNumCols(); cur_col++) {
+        _matrix[cur_row][cur_col] = other_mat.getValue(cur_row, cur_col);
+      }
+    }
+    _rows = other_mat.getNumRows();
+    _cols = other_mat.getNumCols();
+  }
+
+  /**
+   * @brief copy assignment operator overload
+   * @param other_mat the other matrix to copy into this matrix instance.
+   */
+  Matrix<T, rows, cols>& operator=(const Matrix<T, rows, cols>& other_mat) {
+    for (size_t cur_row = 0; cur_row < other_mat.getNumRows(); cur_row++) {
+      for (size_t cur_col = 0; cur_col < other_mat.getNumCols(); cur_col++) {
+        _matrix[cur_row][cur_col] = other_mat.getValue(cur_row, cur_col);
+      }
+    }
+    _rows = other_mat.getNumRows();
+    _cols = other_mat.getNumCols();
+
+    return *this;
+  }
+
+  /**
    * @brief returns the number of rows for a given matrix.
    * @return the number of rows for the given matrix.
    */
