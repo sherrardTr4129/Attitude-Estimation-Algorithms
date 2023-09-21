@@ -32,8 +32,44 @@ TEST(AngleClassTesting, TestAngleCreation) {
   ASSERT_EQ(RADIANS, rad_angle_copy_assign.getAngleType());
 }
 
+TEST(AngleClassTesting, TestAngleTypeConversion) {
+  // make degree angle
+  Angle<float> deg_angle(150, DEGREES);
+
+  // try to convert to degrees
+  deg_angle.toDegrees();
+
+  // make sure nothing changed
+  ASSERT_FLOAT_EQ(150, deg_angle.getAngleValue());
+  EXPECT_EQ(DEGREES, deg_angle.getAngleType());
+
+  // convert to radians, assert correct value and type
+  deg_angle.toRadians();
+  EXPECT_NEAR(2.61799, deg_angle.getAngleValue(), 0.001);
+  EXPECT_EQ(RADIANS, deg_angle.getAngleType());
+
+  // do the same process with rad->degrees
+  Angle<float> rad_angle(M_PI / 2, RADIANS);
+
+  rad_angle.toRadians();
+  ASSERT_FLOAT_EQ(M_PI / 2, rad_angle.getAngleValue());
+  EXPECT_EQ(RADIANS, rad_angle.getAngleType());
+
+  rad_angle.toDegrees();
+  EXPECT_NEAR(90, rad_angle.getAngleValue(), 0.001);
+  EXPECT_EQ(DEGREES, rad_angle.getAngleType());
+}
+
 TEST(AngleClassTesting, TestAngleNormalization) {
-  // TODO: Implement me
+  // make degree angle outside of 0->360 degree bounds
+  Angle<float> deg_angle(720, DEGREES);
+
+  // make sure it's normalized correctly
+  ASSERT_FLOAT_EQ(0, deg_angle.getAngleValue());
+
+  // make radian angle outside of 0->2*PI bounds
+  Angle<float> rad_angle(3 * M_PI, RADIANS);
+  ASSERT_FLOAT_EQ(M_PI, rad_angle.getAngleValue());
 }
 
 int main(int argc, char **argv) {

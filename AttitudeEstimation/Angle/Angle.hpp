@@ -27,6 +27,7 @@ public:
   Angle(T angle_value, angle_type_t angle_type) {
     this->_angle_value = angle_value;
     this->_angle_type = angle_type;
+    this->normalizeAngle();
   }
 
   /**
@@ -36,6 +37,7 @@ public:
   Angle(const Angle &other) {
     this->_angle_value = other.getAngleValue();
     this->_angle_type = other.getAngleType();
+    this->normalizeAngle();
   }
 
   /**
@@ -46,6 +48,7 @@ public:
   Angle &operator=(const Angle &other) {
     this->_angle_value = other.getAngleValue();
     this->_angle_type = other.getAngleType();
+    this->normalizeAngle();
 
     return *this;
   }
@@ -91,12 +94,28 @@ public:
     }
   }
 
-  void toRadians(){
-    // TODO: implement me
+  /**
+   * @brief converts the the angle type and value of this
+   * class into radians, if not already in radians.
+   */
+  void toRadians() {
+    if (this->getAngleType() == DEGREES) {
+      this->_angle_type = RADIANS;
+      this->setAngleValue(this->getAngleValue() * (M_PI / 180.0));
+      this->normalizeAngle();
+    }
   }
 
-  void toDegrees(){
-    // TODO: implement me
+  /**
+   * @brief converts the the angle type and value of this
+   * class into degrees, if not already in degrees.
+   */
+  void toDegrees() {
+    if (this->getAngleType() == RADIANS) {
+      this->_angle_type = DEGREES;
+      this->setAngleValue(this->getAngleValue() * (180.0 / M_PI));
+      this->normalizeAngle();
+    }
   }
 
 private:
