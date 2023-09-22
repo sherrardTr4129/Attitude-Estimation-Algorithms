@@ -72,6 +72,38 @@ TEST(AngleClassTesting, TestAngleNormalization) {
   ASSERT_FLOAT_EQ(M_PI, rad_angle.getAngleValue());
 }
 
+TEST(AngleClassTesting, TestAngleAddSub) {
+  // make two angles of the same type
+  Angle<float> deg_angle_one(100, DEGREES);
+  Angle<float> deg_angle_two(100, DEGREES);
+
+  // perform addition and subtraction
+  Angle<float> add_res_angle_one = deg_angle_one + deg_angle_two;
+  Angle<float> sub_res_angle_one = deg_angle_one - deg_angle_two;
+
+  // verify results
+  ASSERT_FLOAT_EQ(200, add_res_angle_one.getAngleValue());
+  ASSERT_FLOAT_EQ(0, sub_res_angle_one.getAngleValue());
+
+  // make two angles for different types
+  Angle<float> deg_angle_three(90, DEGREES);
+  Angle<float> rad_angle_one(M_PI / 2, RADIANS);
+
+  // perform addition and subtraction
+  Angle<float> add_res_angle_two = deg_angle_three + rad_angle_one;
+  Angle<float> sub_res_angle_two = deg_angle_three - rad_angle_one;
+
+  // verify results
+  ASSERT_FLOAT_EQ(180, add_res_angle_two.getAngleValue());
+  ASSERT_FLOAT_EQ(0, sub_res_angle_two.getAngleValue());
+  ASSERT_EQ(DEGREES, add_res_angle_two.getAngleType());
+  ASSERT_EQ(DEGREES, sub_res_angle_two.getAngleType());
+
+  // make sure original operators are not mutated
+  ASSERT_EQ(DEGREES, deg_angle_three.getAngleType());
+  ASSERT_EQ(RADIANS, rad_angle_one.getAngleType());
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

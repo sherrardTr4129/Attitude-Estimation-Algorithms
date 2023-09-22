@@ -1,6 +1,6 @@
 #pragma once
+#include <iostream>
 #include <math.h>
-
 namespace structures {
 
 /**
@@ -51,6 +51,50 @@ public:
     this->normalizeAngle();
 
     return *this;
+  }
+
+  /**
+   * @brief angle class addition operator overload
+   * @param other the other angle to add to this angle instance.
+   * @return a new angle class instance
+   */
+  Angle operator+(const Angle &other) {
+    Angle<T> other_angle_copy = other;
+
+    // convert other angle type if needed
+    if (other_angle_copy.getAngleType() != this->getAngleType()) {
+      if (this->getAngleType() == DEGREES) {
+        other_angle_copy.toDegrees();
+      } else {
+        other_angle_copy.toRadians();
+      }
+    }
+
+    Angle<T> sum_angle(this->getAngleValue() + other_angle_copy.getAngleValue(),
+                       this->getAngleType());
+    return sum_angle;
+  }
+
+  /**
+   * @brief angle class subtraction operator overload
+   * @param other the other angle to subtract from this angle instance.
+   * @return a new angle class instance
+   */
+  Angle operator-(const Angle &other) {
+    Angle<T> other_angle_copy = other;
+
+    // convert other angle type if needed
+    if (other_angle_copy.getAngleType() != this->getAngleType()) {
+      if (this->getAngleType() == DEGREES) {
+        other_angle_copy.toDegrees();
+      } else {
+        other_angle_copy.toRadians();
+      }
+    }
+
+    Angle<T> sub_angle(this->getAngleValue() - other_angle_copy.getAngleValue(),
+                       this->getAngleType());
+    return sub_angle;
   }
 
   /**
