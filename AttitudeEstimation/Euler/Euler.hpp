@@ -14,9 +14,9 @@ public:
    * @param angle_types the type of angles given in this constructor
    */
   Euler(T x, T y, T z, angle_type_t angle_types) {
-    this->_x = Angle(x, angle_types);
-    this->_y = Angle(y, angle_types);
-    this->_z = Angle(z, angle_types);
+    this->_x = Angle<T>(x, angle_types);
+    this->_y = Angle<T>(y, angle_types);
+    this->_z = Angle<T>(z, angle_types);
     this->_angle_types = angle_types;
   }
 
@@ -24,9 +24,9 @@ public:
    * @brief constuct a zero euler of angle type degrees
    */
   Euler() {
-    this->_x = Angle((T)0, DEGREES);
-    this->_y = Angle((T)0, DEGREES);
-    this->_z = Angle((T)0, DEGREES);
+    this->_x = Angle<T>((T)0, DEGREES);
+    this->_y = Angle<T>((T)0, DEGREES);
+    this->_z = Angle<T>((T)0, DEGREES);
     this->_angle_types = DEGREES;
   }
 
