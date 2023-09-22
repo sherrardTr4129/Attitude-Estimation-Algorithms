@@ -36,7 +36,7 @@ public:
    * @brief Matrix class copy constructor
    * @param other_mat the other matrix to copy into this matrix instance.
    */
-  Matrix(Matrix &other_mat) {
+  Matrix(const Matrix &other_mat) {
     for (size_t cur_row = 0; cur_row < other_mat.getNumRows(); cur_row++) {
       for (size_t cur_col = 0; cur_col < other_mat.getNumCols(); cur_col++) {
         _matrix[cur_row][cur_col] = other_mat.getValue(cur_row, cur_col);
