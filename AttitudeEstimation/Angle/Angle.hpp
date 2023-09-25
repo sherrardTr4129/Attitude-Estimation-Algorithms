@@ -98,6 +98,16 @@ public:
   }
 
   /**
+   * @brief angle class operator overload for scalar multiplication
+   * @param other the scalar multiple to multiply this angle by.
+   * @return a new angle class instance
+   */
+  Angle operator*(const T &other) {
+    Angle<T> mult_angle(this->getAngleValue() * other, this->getAngleType());
+    return mult_angle;
+  }
+
+  /**
    * @brief returns the angle value of this instance.
    * @return the angle value of this instance.
    */

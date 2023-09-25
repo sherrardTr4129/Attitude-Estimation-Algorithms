@@ -104,6 +104,22 @@ TEST(AngleClassTesting, TestAngleAddSub) {
   ASSERT_EQ(RADIANS, rad_angle_one.getAngleType());
 }
 
+TEST(AngleClassTesting, TestScalarMult) {
+  // make two angles of different types
+  Angle<float> deg_angle_one(100, DEGREES);
+  Angle<float> rad_angle_two(M_PI / 2, RADIANS);
+
+  // do scalar multiplication
+  Angle<float> mult_angle_deg = deg_angle_one * 3;
+  Angle<float> mult_angle_rad = rad_angle_two * 2;
+
+  // make sure values are correct
+  ASSERT_FLOAT_EQ(300, mult_angle_deg.getAngleValue());
+  ASSERT_FLOAT_EQ(M_PI, mult_angle_rad.getAngleValue());
+  ASSERT_EQ(DEGREES, mult_angle_deg.getAngleType());
+  ASSERT_EQ(RADIANS, mult_angle_rad.getAngleType());
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
