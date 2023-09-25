@@ -43,14 +43,43 @@ public:
   /**
    * @brief copy assignment operator overload.
    * @param other the other Euler class to copy into this instance.
+   * @return a new Euler class instance
    */
-  Euler &operator=(const Euler &other) {
+  Euler<T> &operator=(const Euler &other) {
     this->_x = other.getX();
     this->_y = other.getY();
     this->_z = other.getZ();
     this->_angle_types = other.getAngleType();
 
     return *this;
+  }
+
+  /**
+   * @brief addition operator overload.
+   * @param other the other Euler class to add to this instance.
+   * @return a new Euler class instance
+   */
+  Euler<T> operator+(const Euler &other) {
+    Angle<T> new_x = this->getX() + other.getX();
+    Angle<T> new_y = this->getY() + other.getY();
+    Angle<T> new_z = this->getZ() + other.getZ();
+
+    return Euler<T>(new_x.getAngleValue(), new_y.getAngleValue(),
+                    new_z.getAngleValue(), this->getAngleType());
+  }
+
+  /**
+   * @brief subtraction operator overload.
+   * @param other the other Euler class to subtract from this instance.
+   * @return a new Euler class instance
+   */
+  Euler<T> operator-(const Euler &other) {
+    Angle<T> new_x = this->getX() - other.getX();
+    Angle<T> new_y = this->getY() - other.getY();
+    Angle<T> new_z = this->getZ() - other.getZ();
+
+    return Euler<T>(new_x.getAngleValue(), new_y.getAngleValue(),
+                    new_z.getAngleValue(), this->getAngleType());
   }
 
   /**

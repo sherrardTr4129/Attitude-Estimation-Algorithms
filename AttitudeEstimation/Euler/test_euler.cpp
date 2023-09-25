@@ -113,6 +113,47 @@ TEST(EulerClassTesting, TestEulerToQuat) {
   EXPECT_NEAR(0.0, new_quat_two.getZ(), 0.0001);
 }
 
+TEST(EulerClassTesting, TestEulerAddSub) {
+  // create a few test euler angles of same type
+  Euler<float> new_euler_one(45, 45, 45, DEGREES);
+  Euler<float> new_euler_two(45, 45, 45, DEGREES);
+
+  // perform addition and subtraction
+  Euler<float> add_res_one = new_euler_one + new_euler_two;
+  Euler<float> sub_res_one = new_euler_one - new_euler_two;
+
+  // make sure values are correct
+  EXPECT_EQ(DEGREES, add_res_one.getAngleType());
+  EXPECT_EQ(DEGREES, sub_res_one.getAngleType());
+  EXPECT_FLOAT_EQ(90, add_res_one.getX().getAngleValue());
+  EXPECT_FLOAT_EQ(90, add_res_one.getY().getAngleValue());
+  EXPECT_FLOAT_EQ(90, add_res_one.getZ().getAngleValue());
+  EXPECT_FLOAT_EQ(0, sub_res_one.getX().getAngleValue());
+  EXPECT_FLOAT_EQ(0, sub_res_one.getY().getAngleValue());
+  EXPECT_FLOAT_EQ(0, sub_res_one.getZ().getAngleValue());
+
+  // create a few test euler angles of different types
+  Euler<float> new_euler_three(90, 90, 90, DEGREES);
+  Euler<float> new_euler_four(M_PI / 2, M_PI / 2, M_PI / 2, RADIANS);
+
+  // perform addition and subtraction
+  Euler<float> add_res_two = new_euler_three + new_euler_four;
+  Euler<float> sub_res_two = new_euler_three - new_euler_four;
+
+  // make sure values are correct
+  EXPECT_EQ(DEGREES, add_res_two.getAngleType());
+  EXPECT_EQ(DEGREES, sub_res_two.getAngleType());
+  EXPECT_FLOAT_EQ(180, add_res_two.getX().getAngleValue());
+  EXPECT_FLOAT_EQ(180, add_res_two.getY().getAngleValue());
+  EXPECT_FLOAT_EQ(180, add_res_two.getZ().getAngleValue());
+  EXPECT_FLOAT_EQ(0, sub_res_two.getX().getAngleValue());
+  EXPECT_FLOAT_EQ(0, sub_res_two.getY().getAngleValue());
+  EXPECT_FLOAT_EQ(0, sub_res_two.getZ().getAngleValue());
+
+  // make sure radian euler was not mutated
+  EXPECT_EQ(RADIANS, new_euler_four.getAngleType());
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
