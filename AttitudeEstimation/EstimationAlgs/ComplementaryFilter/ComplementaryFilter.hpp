@@ -2,6 +2,7 @@
 
 #include "../../Euler/Euler.hpp"
 #include "../../Matrix/Matrix.hpp"
+#include "../../Quaternion/Quaternion.hpp"
 #include <stdint.h>
 
 namespace filters {
@@ -10,7 +11,7 @@ public:
   ComplementaryFilter(float alpha_gain);
   ComplementaryFilter(const ComplementaryFilter &other) = delete;
   ComplementaryFilter &operator=(const ComplementaryFilter &other) = delete;
-  structures::Euler<double> update(structures::Matrix<double, 3, 1> acc_readings,
+  structures::Quaternion<double> update(structures::Matrix<double, 3, 1> acc_readings,
                                   structures::Matrix<double, 3, 1> gyro_readings,
                                   structures::Matrix<double, 3, 1> mag_readings,
                                   uint32_t delta_t_ms);

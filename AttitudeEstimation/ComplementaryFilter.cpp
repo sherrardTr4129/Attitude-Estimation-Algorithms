@@ -1,6 +1,7 @@
 #include "EstimationAlgs/ComplementaryFilter/ComplementaryFilter.hpp"
 #include "Euler/Euler.hpp"
 #include "Matrix/Matrix.hpp"
+#include "Quaternion/Quaternion.hpp"
 #include "math.h"
 
 namespace filters {
@@ -10,7 +11,7 @@ ComplementaryFilter::ComplementaryFilter(float alpha_gain) {
       structures::Euler<double>(0, 0, 0, structures::RADIANS);
 }
 
-structures::Euler<double> ComplementaryFilter::update(structures::Matrix<double, 3, 1> acc_readings,
+structures::Quaternion<double> ComplementaryFilter::update(structures::Matrix<double, 3, 1> acc_readings,
                                 structures::Matrix<double, 3, 1> gyro_readings,
                                 structures::Matrix<double, 3, 1> mag_readings,
                                 uint32_t delta_t_ms) {
@@ -60,6 +61,6 @@ structures::Euler<double> ComplementaryFilter::update(structures::Matrix<double,
   structures::Euler<double> final_euler = euler_gyro*this->_alpha_gain + 
                                         euler_accel_mag*(1 - this->_alpha_gain);
 
-  return final_euler;
+  return final_euler.toQuaternion();
 }
 } // namespace filters
