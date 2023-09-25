@@ -46,11 +46,20 @@ structures::Euler<float> ComplementaryFilter::update(structures::Matrix<float, 3
 
   // now estimate the orientation from the gyroscope readings alone
   float delta_t_sec = delta_t_ms/1000.0;
-  theta_x = this->_last_update_euler.getX().getAngleValue() + gyro_readings.getValue(0, 0)*delta_t_sec;
-  theta_y = this->_last_update_euler.getY().getAngleValue() + gyro_readings.getValue(1, 0)*delta_t_sec;
-  theta_z = this->_last_update_euler.getZ().getAngleValue() + gyro_readings.getValue(2, 0)*delta_t_sec;
 
-  // construct Euler that was estimated from gyroscope data
-  structures::Euler<float> euler_gyro(theta_x, theta_y, theta_z, structures::RADIANS);
+  // perform basic numerical integration to get angle from angular rates
+  theta_x = gyro_readings.getValue(0, 0)*delta_t_sec;
+  theta_y = gyro_readings.getValue(1, 0)*delta_t_sec;
+  theta_z = gyro_readings.getValue(2, 0)*delta_t_sec;
+  structures::Euler<float> euler_gyro_instantaneous(theta_x, theta_y, theta_z, structures::RADIANS);
+
+  // add angle to previous angle
+  structures::Euler<float> euler_gyro = this->_last_update_euler + euler_gyro_instantaneous;
+
+  // compute final euler angle based on provided weight
+  structures::Euler<float> final_euler = euler_gyro*this->_alpha_gain + 
+                                        euler_accel_mag*(1 - this->_alpha_gain);
+
+  return final_euler;
 }
 } // namespace filters
