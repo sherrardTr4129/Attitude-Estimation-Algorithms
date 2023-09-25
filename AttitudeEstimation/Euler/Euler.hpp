@@ -83,6 +83,20 @@ public:
   }
 
   /**
+   * @brief scalar multiplication operator overload.
+   * @param other the scalar to multiply this euler instance by.
+   * @return a new Euler class instance
+   */
+  Euler<T> operator*(const T &other) {
+    Angle<T> new_x = this->getX() * other;
+    Angle<T> new_y = this->getY() * other;
+    Angle<T> new_z = this->getZ() * other;
+
+    return Euler<T>(new_x.getAngleValue(), new_y.getAngleValue(),
+                    new_z.getAngleValue(), this->getAngleType());
+  }
+
+  /**
    * @brief gets the X component of the euler angle
    * @return the X component of the euler angle
    */

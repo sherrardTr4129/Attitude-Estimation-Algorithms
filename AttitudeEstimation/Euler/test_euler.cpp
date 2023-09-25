@@ -154,6 +154,28 @@ TEST(EulerClassTesting, TestEulerAddSub) {
   EXPECT_EQ(RADIANS, new_euler_four.getAngleType());
 }
 
+TEST(EulerClassTesting, TestEulerScalarMult) {
+  // create a few test euler angles different types
+  Euler<float> deg_euler(90, 90, 90, DEGREES);
+  Euler<float> rad_euler(M_PI / 2, M_PI / 2, M_PI / 2, RADIANS);
+
+  // do scalar multiplication
+  Euler<float> deg_euler_prod_1 = deg_euler * 0.5;
+  Euler<float> deg_euler_prod_2 = deg_euler * 2.0;
+  Euler<float> rad_euler_prod = rad_euler * 2.0;
+
+  // check values
+  EXPECT_FLOAT_EQ(45, deg_euler_prod_1.getX().getAngleValue());
+  EXPECT_FLOAT_EQ(45, deg_euler_prod_1.getY().getAngleValue());
+  EXPECT_FLOAT_EQ(45, deg_euler_prod_1.getZ().getAngleValue());
+  EXPECT_FLOAT_EQ(180, deg_euler_prod_2.getX().getAngleValue());
+  EXPECT_FLOAT_EQ(180, deg_euler_prod_2.getY().getAngleValue());
+  EXPECT_FLOAT_EQ(180, deg_euler_prod_2.getZ().getAngleValue());
+  EXPECT_FLOAT_EQ(M_PI, rad_euler_prod.getX().getAngleValue());
+  EXPECT_FLOAT_EQ(M_PI, rad_euler_prod.getY().getAngleValue());
+  EXPECT_FLOAT_EQ(M_PI, rad_euler_prod.getZ().getAngleValue());
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
