@@ -3,6 +3,7 @@
 #include "../EstimationAlgs/ComplementaryFilter/ComplementaryFilter.hpp"
 #include "../Matrix/Matrix.hpp"
 #include "../Quaternion/Quaternion.hpp"
+#include "AlgParams.hpp"
 #include "Nicla_System.h"
 #include "memory.h"
 
@@ -53,6 +54,11 @@ public:
 class ComplementaryDriver : public FilterDriver {
 public:
   /**
+   * @brief ComplementaryDriver constructor
+   */
+  ComplementaryDriver() : _comp_filt(COMP_FILTER_ALPHA_GAIN) {}
+
+  /**
    * @brief Complementary filter update function. NOTE: all reading matricies
    * are expected to be packed in <X, Y, Z> axis order.
    * @param acc_mat accelerometer reading matrix.
@@ -67,10 +73,15 @@ public:
          structures::Matrix<double, 3, 1> mag_mat,
          uint32_t ellapsed_time) override {
 
-    // TODO: Implement me
-    structures::Quaternion<double> new_quat_est;
+    // perform complementary filter update
+    structures::Quaternion<double> new_quat_est =
+        this->_comp_filt.update(acc_mat, gyro_mat, mag_mat, ellapsed_time);
+
     return new_quat_est;
   }
+
+private:
+  ComplementaryFilter _comp_filt;
 }; // end ComplementaryDriver class
 
 /**
