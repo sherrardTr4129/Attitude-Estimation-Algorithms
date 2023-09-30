@@ -18,6 +18,24 @@ public:
   }
 
   /**
+   * @brief copy constructor for ComplementaryFilter class
+   */
+  ComplementaryFilter(const ComplementaryFilter& other) {
+    this->_alpha_gain = other._alpha_gain;
+    this->_last_update_euler = other._last_update_euler;
+  }
+
+  /**
+   * @brief copy assignment operator overload for ComplementaryFilter class
+   */
+  ComplementaryFilter operator=(const ComplementaryFilter& other) {
+    this->_alpha_gain = other._alpha_gain;
+    this->_last_update_euler = other._last_update_euler;
+
+    return *this;
+  }
+
+  /**
    * @brief constructor for ComplementaryFilter class.
    * @param alpha_gain the complementery gain to use when combining
    * orientation measured from accelerometer and magnetometer, and
