@@ -31,6 +31,7 @@ typedef enum { COMPLEMENTARY, EKF, MADGWICK, MAHONY } available_filters_t;
  * @brief a class to perform an update operation on our selected filter.
  */
 class FilterDriver {
+public:
   /**
    * @brief generic filter update function. NOTE: all reading matricies
    * are expected to be packed in <X, Y, Z> axis order.
@@ -40,7 +41,6 @@ class FilterDriver {
    * @param ellapsed_time elapsed time since last update.
    * @return a Quaternion instance with the newly estimated attitude.
    */
-public:
   virtual structures::Quaternion<double>
   update(structures::Matrix<double, 3, 1> acc_mat,
          structures::Matrix<double, 3, 1> gyro_mat,
@@ -51,6 +51,7 @@ public:
  * @brief a class to perform an update operation on a complementary filter.
  */
 class ComplementaryDriver : public FilterDriver {
+public:
   /**
    * @brief Complementary filter update function. NOTE: all reading matricies
    * are expected to be packed in <X, Y, Z> axis order.
@@ -60,7 +61,6 @@ class ComplementaryDriver : public FilterDriver {
    * @param ellapsed_time elapsed time since last update.
    * @return a Quaternion instance with the newly estimated attitude.
    */
-public:
   structures::Quaternion<double>
   update(structures::Matrix<double, 3, 1> acc_mat,
          structures::Matrix<double, 3, 1> gyro_mat,
@@ -77,6 +77,7 @@ public:
  * @brief a class to perform an update operation on a EKF filter.
  */
 class EKFDriver : public FilterDriver {
+public:
   /**
    * @brief EKF filter update function. NOTE: all reading matricies
    * are expected to be packed in <X, Y, Z> axis order.
@@ -86,7 +87,6 @@ class EKFDriver : public FilterDriver {
    * @param ellapsed_time elapsed time since last update.
    * @return a Quaternion instance with the newly estimated attitude.
    */
-public:
   structures::Quaternion<double>
   update(structures::Matrix<double, 3, 1> acc_mat,
          structures::Matrix<double, 3, 1> gyro_mat,
@@ -103,6 +103,7 @@ public:
  * @brief a class to perform an update operation on a Madgwick filter.
  */
 class MadgwickDriver : public FilterDriver {
+public:
   /**
    * @brief Madgwick filter update function. NOTE: all reading matricies
    * are expected to be packed in <X, Y, Z> axis order.
@@ -112,7 +113,6 @@ class MadgwickDriver : public FilterDriver {
    * @param ellapsed_time elapsed time since last update.
    * @return a Quaternion instance with the newly estimated attitude.
    */
-public:
   structures::Quaternion<double>
   update(structures::Matrix<double, 3, 1> acc_mat,
          structures::Matrix<double, 3, 1> gyro_mat,
@@ -129,6 +129,7 @@ public:
  * @brief a class to perform an update operation on a Mahony filter.
  */
 class MahonyDriver : public FilterDriver {
+public:
   /**
    * @brief Mahony filter update function. NOTE: all reading matricies
    * are expected to be packed in <X, Y, Z> axis order.
@@ -138,7 +139,6 @@ class MahonyDriver : public FilterDriver {
    * @param ellapsed_time elapsed time since last update.
    * @return a Quaternion instance with the newly estimated attitude.
    */
-public:
   structures::Quaternion<double>
   update(structures::Matrix<double, 3, 1> acc_mat,
          structures::Matrix<double, 3, 1> gyro_mat,
