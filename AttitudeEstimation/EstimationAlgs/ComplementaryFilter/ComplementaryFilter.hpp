@@ -8,18 +8,38 @@
 namespace filters {
 class ComplementaryFilter {
 public:
+  /**
+   * @brief constructor for ComplementaryFilter class
+   */
   ComplementaryFilter() {
     this->_alpha_gain = 0.0;
     this->_last_update_euler =
         structures::Euler<double>(0, 0, 0, structures::RADIANS);
   }
 
+  /**
+   * @brief constructor for ComplementaryFilter class.
+   * @param alpha_gain the complementery gain to use when combining
+   * orientation measured from accelerometer and magnetometer, and
+   * gyroscope. A higher value for alpha_gain results in more preference
+   * given to the gyroscope estimation, and a lower value results in more
+   * preference given to the accelerometer and magnetometer estimation.
+   */
   ComplementaryFilter(float alpha_gain) {
     this->_alpha_gain = alpha_gain;
     this->_last_update_euler =
         structures::Euler<double>(0, 0, 0, structures::RADIANS);
   }
 
+  /**
+   * @brief Complementary filter update function. NOTE: all reading matricies
+   * are expected to be packed in <X, Y, Z> axis order.
+   * @param acc_mat accelerometer reading matrix.
+   * @param gyro_mat gyroscope reading matrix.
+   * @param mag_mat magnetometer reading matrix.
+   * @param ellapsed_time elapsed time since last update.
+   * @return a Quaternion instance with the newly estimated attitude.
+   */
   structures::Quaternion<double>
   update(structures::Matrix<double, 3, 1> acc_readings,
          structures::Matrix<double, 3, 1> gyro_readings,
