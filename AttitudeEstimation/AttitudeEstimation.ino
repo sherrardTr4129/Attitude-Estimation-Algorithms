@@ -1,10 +1,5 @@
 #include "Arduino_BHY2.h"
-#include "Matrix/Matrix.hpp"
 #include "Nicla_System.h"
-#include "Quaternion/Quaternion.hpp"
-#include "Euler/Euler.hpp"
-#include "SensorDriver/SensorDriver.hpp"
-#include "EstimationAlgs/ComplementaryFilter/ComplementaryFilter.hpp"
 #include "SensorDriver/SensorDriver.hpp"
 
 // setup 9DOF sensor objects
