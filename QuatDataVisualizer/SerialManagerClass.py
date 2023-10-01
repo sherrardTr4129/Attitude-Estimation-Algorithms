@@ -47,7 +47,7 @@ class SerialManager:
             self.serObj = None
             return res
 
-    def read(self) -> str:
+    def read(self) -> bytes:
         """
         reads a line from the serial interface.
         :return lineFromSer: the line read from the serial interface.
