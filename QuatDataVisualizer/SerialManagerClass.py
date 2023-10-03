@@ -2,10 +2,12 @@
 
 import serial
 
+
 class SerialManager:
     """
     A class to manage a given serial connetion
     """
+
     def __init__(self, port, baud):
         """
         class ctor
@@ -40,7 +42,7 @@ class SerialManager:
         # check if serial is open
         res = serObj.isOpen()
 
-        if(res):
+        if res:
             self.serObj = serObj
             return res
         else:
