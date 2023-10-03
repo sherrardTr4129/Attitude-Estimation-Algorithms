@@ -55,13 +55,13 @@ public:
    * @param acc_mat accelerometer reading matrix.
    * @param gyro_mat gyroscope reading matrix.
    * @param mag_mat magnetometer reading matrix.
-   * @param ellapsed_time elapsed time since last update.
+   * @param ellapsed_time elapsed time in microseconds since last update.
    * @return a Quaternion instance with the newly estimated attitude.
    */
   structures::Quaternion<double>
   update(structures::Matrix<double, 3, 1> acc_readings,
          structures::Matrix<double, 3, 1> gyro_readings,
-         structures::Matrix<double, 3, 1> mag_readings, uint32_t delta_t_ms) {
+         structures::Matrix<double, 3, 1> mag_readings, uint32_t ellapsed_time) {
     // compute tilt angles from accelerometer readings
     double theta_x =
         atan2(acc_readings.getValue(1, 0), acc_readings.getValue(2, 0));
@@ -94,7 +94,7 @@ public:
                                               structures::RADIANS);
 
     // now estimate the orientation from the gyroscope readings alone
-    double delta_t_sec = delta_t_ms / 1000.0;
+    double delta_t_sec = ellapsed_time / 1000000.0;
 
     // perform basic numerical integration to get angle from angular rates
     theta_x = gyro_readings.getValue(0, 0) * delta_t_sec;
@@ -111,6 +111,9 @@ public:
     structures::Euler<double> final_euler =
         euler_gyro * this->_alpha_gain +
         euler_accel_mag * (1 - this->_alpha_gain);
+
+    // update last euler before returning
+    this->_last_update_euler = euler_gyro;
 
     return final_euler.toQuaternion();
   }

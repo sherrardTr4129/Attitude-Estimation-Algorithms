@@ -209,7 +209,7 @@ public:
   void run() {
 
     // initialize last update value with current time
-    this->_last_update = millis();
+    this->_last_update = micros();
     while (true) {
       // get new sensor readings
       BHY2.update();
@@ -234,7 +234,7 @@ public:
       structures::Matrix<double, 3, 1> mag_mat(magnetometer_readings);
 
       // get elapsed time since last update
-      uint32_t ellapsed_time = millis() - this->_last_update;
+      uint64_t ellapsed_time = micros() - this->_last_update;
 
       // perform update
       structures::Quaternion<double> estimated_quat =
@@ -242,7 +242,7 @@ public:
                                        ellapsed_time);
 
       // update ellapsed_time
-      this->_last_update = millis();
+      this->_last_update = micros();
 
       // format json message and print to serial monitor
       char final_json_char_arr[512];
@@ -252,7 +252,7 @@ public:
               estimated_quat.getW(), estimated_quat.getX(),
               estimated_quat.getY(), estimated_quat.getZ());
 
-      Serial.println(final_json_char_arr);
+      Serial.print(final_json_char_arr);
     }
   }
 
@@ -263,7 +263,7 @@ private:
   SensorXYZ *_magnetometer;
   SensorQuaternion *_ground_truth_quat;
   available_filters_t _selected_filter;
-  uint32_t _last_update;
+  uint64_t _last_update;
   char _JSON_format_patt[200] =
       "{\"ground_truth_quat\": {\"w\": %f, \"x\": %f, \"y\": %f, \"z\": "
       "%f},\"estimated_quat\": {\"w\": %f,\"x\": %f,\"y\": %f,\"z\": %f}}\n";
