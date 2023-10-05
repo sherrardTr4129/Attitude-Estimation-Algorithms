@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../EstimationAlgs/ComplementaryFilter/ComplementaryFilter.hpp"
+#include "../EstimationAlgs/MadgwickFilter/MadgwickFilter.hpp"
 #include "../Matrix/Matrix.hpp"
 #include "../Quaternion/Quaternion.hpp"
 #include "AlgParams.hpp"
