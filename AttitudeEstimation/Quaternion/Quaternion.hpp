@@ -43,13 +43,32 @@ public:
    * @param other the other Quaternion to copy into this instance.
    * @returns new quaternion instance.
    */
-  Quaternion &operator=(const Quaternion &other) {
+  Quaternion<T> &operator=(const Quaternion &other) {
     this->_x = other.getX();
     this->_y = other.getY();
     this->_z = other.getZ();
     this->_w = other.getW();
 
     return *this;
+  }
+
+  /**
+   * @brief multiplication operator overload
+   * @param other the other Quaternion to multiply with this one
+   * @returns the product of the multiplication
+   */
+  Quaternion<T> operator*(const Quaternion &other) {
+    Quaternion<T> new_quat;
+    new_quat.setW(this->getW() * other.getW() - this->getX() * other.getX() -
+                  this->getY() * other.getY() - this->getZ() * other.getZ());
+    new_quat.setX(this->getW() * other.getX() + this->getX() * other.getW() +
+                  this->getY() * other.getZ() - this->getZ() * other.getY());
+    new_quat.setY(this->getW() * other.getY() - this->getX() * other.getZ() +
+                  this->getY() * other.getW() + this->getZ() * other.getX());
+    new_quat.setZ(this->getW() * other.getZ() + this->getX() * other.getY() -
+                  this->getY() * other.getX() + this->getZ() * other.getW());
+
+    return new_quat;
   }
 
   /**

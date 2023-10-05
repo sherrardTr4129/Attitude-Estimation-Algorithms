@@ -34,6 +34,32 @@ TEST(QuaternionClassTesting, TestQuatCreation) {
   EXPECT_FLOAT_EQ(copy_assigned_quat.getW(), 0.5);
 }
 
+TEST(QuaternionClassTesting, TestQuatMultiplication) {
+  // test identity case
+  Quaternion<float> identityQuatOne;
+  Quaternion<float> identityQuatTwo;
+
+  // multiply two identity quats and make sure we get one back
+  Quaternion<float> res_quat = identityQuatOne * identityQuatTwo;
+  EXPECT_FLOAT_EQ(res_quat.getX(), 0.0);
+  EXPECT_FLOAT_EQ(res_quat.getY(), 0.0);
+  EXPECT_FLOAT_EQ(res_quat.getZ(), 0.0);
+  EXPECT_FLOAT_EQ(res_quat.getW(), 1.0);
+
+  // test non-identity case
+  Quaternion<float> nonIdentityQuatOne(0.5, 0.2, 0.2, 0.6);
+  Quaternion<float> nonIdentityQuatTwo(0.6, 0.3, 0.1, 0.3);
+
+  // multiply two non-identity quats and make sure we
+  // get correct value back
+  Quaternion<float> non_ident_res_quat =
+      nonIdentityQuatOne * nonIdentityQuatTwo;
+  EXPECT_FLOAT_EQ(non_ident_res_quat.getX(), 0.47);
+  EXPECT_FLOAT_EQ(non_ident_res_quat.getY(), 0.31);
+  EXPECT_FLOAT_EQ(non_ident_res_quat.getZ(), 0.15);
+  EXPECT_FLOAT_EQ(non_ident_res_quat.getW(), -0.2);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
