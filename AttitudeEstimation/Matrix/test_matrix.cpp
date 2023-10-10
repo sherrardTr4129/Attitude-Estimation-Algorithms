@@ -152,6 +152,27 @@ TEST(MatrixClassTesting, TestMatrixTranspose) {
   ASSERT_TRUE(new_mat_transposed == test_mat_T);
 }
 
+TEST(MatrixClassTesting, TestMatrixNorm) {
+  // test row vector
+  float row_vec[3][1] = {{1}, {1}, {1}};
+  Matrix<float, 3, 1> row_matrix(row_vec);
+  float row_vec_norm = row_matrix.norm();
+  EXPECT_NEAR(1.732, row_vec_norm, 0.001);
+
+  // test column vector
+  float col_vec[1][3] = {{1, 1, 1}};
+  Matrix<float, 1, 3> col_matrix(col_vec);
+  float col_vec_norm = col_matrix.norm();
+  EXPECT_NEAR(1.732, col_vec_norm, 0.001);
+
+  // test square vector. Make sure we get
+  // a negative one as response.
+  float square_vec[3][3] = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
+  Matrix<float, 3, 3> square_matrix(square_vec);
+  float square_matrix_norm = square_matrix.norm();
+  ASSERT_EQ(-1, square_matrix_norm);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
