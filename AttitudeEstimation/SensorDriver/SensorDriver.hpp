@@ -117,6 +117,10 @@ public:
 class MadgwickDriver : public FilterDriver {
 public:
   /**
+   * @brief default constructor
+   */
+  MadgwickDriver() : _madgwick_filter(BETA_GAIN) {}
+  /**
    * @brief Madgwick filter update function. NOTE: all reading matricies
    * are expected to be packed in <X, Y, Z> axis order.
    * @param acc_mat accelerometer reading matrix.
@@ -131,10 +135,13 @@ public:
          structures::Matrix<double, 3, 1> mag_mat,
          uint32_t ellapsed_time) override {
 
-    // TODO: Implement me
-    structures::Quaternion<double> new_quat_est;
+    structures::Quaternion<double> new_quat_est = this->_madgwick_filter.update(
+        acc_mat, gyro_mat, mag_mat, ellapsed_time);
     return new_quat_est;
   }
+
+private:
+  MadgwickFilter _madgwick_filter;
 }; // end MadgwickDriver class
 
 /**
