@@ -60,6 +60,17 @@ TEST(QuaternionClassTesting, TestQuatMultiplication) {
   EXPECT_FLOAT_EQ(non_ident_res_quat.getW(), -0.2);
 }
 
+TEST(QuaternionClassTesting, TestQuatScalarMultiplication) {
+  // test non-identity case
+  Quaternion<double> nonIdentityQuatOne(0.5, 0.2, 0.2, 0.6);
+  Quaternion<double> resQuat = nonIdentityQuatOne * 0.5;
+
+  EXPECT_NEAR(resQuat.getX(), 0.25, 0.0001);
+  EXPECT_NEAR(resQuat.getY(), 0.1, 0.0001);
+  EXPECT_NEAR(resQuat.getZ(), 0.1, 0.0001);
+  EXPECT_NEAR(resQuat.getW(), 0.3, 0.0001);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

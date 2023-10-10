@@ -53,7 +53,7 @@ public:
   }
 
   /**
-   * @brief multiplication operator overload
+   * @brief multiplication operator overload between quaternions.
    * @param other the other Quaternion to multiply with this one
    * @returns the product of the multiplication
    */
@@ -67,6 +67,22 @@ public:
                   this->getY() * other.getW() + this->getZ() * other.getX());
     new_quat.setZ(this->getW() * other.getZ() + this->getX() * other.getY() -
                   this->getY() * other.getX() + this->getZ() * other.getW());
+
+    return new_quat;
+  }
+
+  /**
+   * @brief multiplication operator overload between a quaternion and a scalar.
+   * @param other the scalar to multiply with this quaternion
+   * @returns the product of the multiplication
+   */
+
+  Quaternion<T> operator*(const T &other) {
+    Quaternion<T> new_quat;
+    new_quat.setW(this->getW() * other);
+    new_quat.setX(this->getX() * other);
+    new_quat.setY(this->getY() * other);
+    new_quat.setZ(this->getZ() * other);
 
     return new_quat;
   }
