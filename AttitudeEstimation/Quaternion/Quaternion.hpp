@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math.h>
+
 namespace structures {
 template <typename T> class Quaternion {
 public:
@@ -85,6 +87,54 @@ public:
     new_quat.setZ(this->getZ() * other);
 
     return new_quat;
+  }
+
+  /**
+   * @brief returns a normalized version of
+   * this quaternion. NOTE: a unit quaternion will
+   * be returned if magnitude of quaternion is zero.
+   * @return the normalized quaternion.
+   */
+  Quaternion<T> norm() {
+    Quaternion<T> quat_norm;
+
+    // compute squared magnitude
+    T squared_mag = pow(this->getW(), 2);
+    squared_mag += pow(this->getX(), 2);
+    squared_mag += pow(this->getY(), 2);
+    squared_mag += pow(this->getZ(), 2);
+
+    // exit early if squared_mag is 0
+    if (squared_mag <= 0.0) {
+      return quat_norm;
+    }
+
+    // take square root
+    T mag = pow(squared_mag, 0.5);
+
+    // create new quaternion scaled by calculated mag
+    quat_norm.setW(this->getW() / mag);
+    quat_norm.setX(this->getX() / mag);
+    quat_norm.setY(this->getY() / mag);
+    quat_norm.setZ(this->getZ() / mag);
+
+    return quat_norm;
+  }
+
+  /**
+   * @brief returns the conjugate of this
+   * quaternion.
+   * @return the conjugate quaternion
+   */
+  Quaternion<T> conj() {
+    Quaternion<T> quat_conj;
+
+    quat_conj.setW(this->getW());
+    quat_conj.setX(-1 * this->getX());
+    quat_conj.setY(-1 * this->getY());
+    quat_conj.setZ(-1 * this->getZ());
+
+    return quat_conj;
   }
 
   /**

@@ -71,6 +71,37 @@ TEST(QuaternionClassTesting, TestQuatScalarMultiplication) {
   EXPECT_NEAR(resQuat.getW(), 0.3, 0.0001);
 }
 
+TEST(QuaternionClassTesting, TestQuaternionNorm) {
+  // take norm and make sure component values are correct
+  Quaternion<double> QuatToNorm(0.94064704, 0.12645116, 0.80194097, 0.62633894);
+  Quaternion<double> resQuat = QuatToNorm.norm();
+
+  EXPECT_NEAR(resQuat.getX(), 0.67600473, 0.0001);
+  EXPECT_NEAR(resQuat.getY(), 0.0908753, 0.0001);
+  EXPECT_NEAR(resQuat.getZ(), 0.57632232, 0.0001);
+  EXPECT_NEAR(resQuat.getW(), 0.45012429, 0.0001);
+
+  // test zero magnitude case
+  Quaternion<double> zeroQuat(0, 0, 0, 0);
+  Quaternion<double> zeroQuatNorm = zeroQuat.norm();
+
+  EXPECT_NEAR(zeroQuatNorm.getX(), 0, 0.0001);
+  EXPECT_NEAR(zeroQuatNorm.getY(), 0, 0.0001);
+  EXPECT_NEAR(zeroQuatNorm.getZ(), 0, 0.0001);
+  EXPECT_NEAR(zeroQuatNorm.getW(), 1, 0.0001);
+}
+
+TEST(QuaternionClassTesting, TestQuaternionConj) {
+  // take conjugate of quaternion, check component values
+  Quaternion<double> QuatToNorm(0.94064704, 0.12645116, 0.80194097, 0.62633894);
+  Quaternion<double> resQuat = QuatToNorm.conj();
+
+  EXPECT_NEAR(resQuat.getX(), -0.94064704, 0.0001);
+  EXPECT_NEAR(resQuat.getY(), -0.12645116, 0.0001);
+  EXPECT_NEAR(resQuat.getZ(), -0.80194097, 0.0001);
+  EXPECT_NEAR(resQuat.getW(), 0.62633894, 0.0001);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
