@@ -261,25 +261,24 @@ public:
    * if it is not, a norm value of -1 will be returned to indicate an
    * error. TODO: extend to handle 2D matrixes.
    * @return the computed norm value.
-  */
+   */
   T norm() {
     bool is_row_vec = (this->getNumCols() == 1 && this->getNumRows() >= 1);
     bool is_col_vec = (this->getNumCols() >= 1 && this->getNumRows() == 1);
 
     // exit early if invalid values were provided
-    if(!(is_row_vec || is_col_vec)) {
+    if (!(is_row_vec || is_col_vec)) {
       return -1.0;
     }
 
     // otherwise, compute the norm value
     T norm_val = 0;
-    if(is_row_vec){
-      for(size_t cur_row = 0; cur_row < this->getNumRows(); cur_row++) {
+    if (is_row_vec) {
+      for (size_t cur_row = 0; cur_row < this->getNumRows(); cur_row++) {
         norm_val += pow(this->getValue(cur_row, 0), 2);
       }
-    }
-    else if(is_col_vec){
-      for(size_t cur_col = 0; cur_col < this->getNumCols(); cur_col++) {
+    } else if (is_col_vec) {
+      for (size_t cur_col = 0; cur_col < this->getNumCols(); cur_col++) {
         norm_val += pow(this->getValue(0, cur_col), 2);
       }
     }
