@@ -8,4 +8,4 @@
 /**
  * @brief algorithm parameters for the Madgwick Filter
 */
-#define BETA_GAIN 0.76
+#define BETA_GAIN (0.866*0.05)
