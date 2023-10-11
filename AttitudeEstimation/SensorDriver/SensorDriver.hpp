@@ -2,6 +2,7 @@
 
 #include "../EstimationAlgs/ComplementaryFilter/ComplementaryFilter.hpp"
 #include "../EstimationAlgs/MadgwickFilter/MadgwickFilter.hpp"
+#include "../EstimationAlgs/MahonyFilter/MahonyFilter.hpp"
 #include "../Matrix/Matrix.hpp"
 #include "../Quaternion/Quaternion.hpp"
 #include "AlgParams.hpp"
@@ -150,6 +151,10 @@ private:
 class MahonyDriver : public FilterDriver {
 public:
   /**
+   * @brief default constructor
+   */
+  MahonyDriver() : _mahony_filter(KI, KP) {}
+  /**
    * @brief Mahony filter update function. NOTE: all reading matricies
    * are expected to be packed in <X, Y, Z> axis order.
    * @param acc_mat accelerometer reading matrix.
@@ -164,10 +169,13 @@ public:
          structures::Matrix<double, 3, 1> mag_mat,
          uint32_t ellapsed_time) override {
 
-    // TODO: Implement me
-    structures::Quaternion<double> new_quat_est;
+    structures::Quaternion<double> new_quat_est =
+        this->_mahony_filter.update(acc_mat, gyro_mat, mag_mat, ellapsed_time);
     return new_quat_est;
   }
+
+private:
+  MahonyFilter _mahony_filter;
 }; // end MahonyDriver class
 
 class SensorManager {
