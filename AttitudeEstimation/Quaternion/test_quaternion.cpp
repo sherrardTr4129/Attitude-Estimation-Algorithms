@@ -104,7 +104,8 @@ TEST(QuaternionClassTesting, TestQuaternionConj) {
 
 TEST(QuaternionClassTesting, TestQuaternionAccesor) {
   // create quaternion, make sure accessor returns the correct value
-  Quaternion<double> testAccessQuat(0.94064704, 0.12645116, 0.80194097, 0.62633894);
+  Quaternion<double> testAccessQuat(0.94064704, 0.12645116, 0.80194097,
+                                    0.62633894);
 
   EXPECT_FLOAT_EQ(testAccessQuat.getX(), testAccessQuat[1]);
   EXPECT_FLOAT_EQ(testAccessQuat.getY(), testAccessQuat[2]);

@@ -188,19 +188,16 @@ public:
 
   /**
    * @brief overide for accessor operator
-  */
+   */
   T operator[](uint8_t i) {
     T return_val;
-    if(i == 0){
+    if (i == 0) {
       return_val = this->getW();
-    }
-    else if(i == 1){
+    } else if (i == 1) {
       return_val = this->getX();
-    }
-    else if(i == 2){
+    } else if (i == 2) {
       return_val = this->getY();
-    }
-    else if(i == 3){
+    } else if (i == 3) {
       return_val = this->getZ();
     }
 
