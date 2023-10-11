@@ -91,6 +91,22 @@ public:
   }
 
   /**
+   * @brief addition operator overload for quaternion.
+   * @param other the other Quaternion to add to this one.
+   * @returns the result of the addition as a quaternion
+   */
+  Quaternion<T> operator+(const Quaternion &other) {
+    Quaternion<T> new_quat;
+
+    new_quat.setW(this->getW() + other.getW());
+    new_quat.setX(this->getX() + other.getX());
+    new_quat.setY(this->getY() + other.getY());
+    new_quat.setZ(this->getZ() + other.getZ());
+
+    return new_quat;
+  }
+
+  /**
    * @brief returns a normalized version of
    * this quaternion. NOTE: a unit quaternion will
    * be returned if magnitude of quaternion is zero.

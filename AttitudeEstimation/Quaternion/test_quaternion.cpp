@@ -113,6 +113,18 @@ TEST(QuaternionClassTesting, TestQuaternionAccesor) {
   EXPECT_FLOAT_EQ(testAccessQuat.getW(), testAccessQuat[0]);
 }
 
+TEST(QuaternionClassTesting, TestQuaternionAddition) {
+  // create quaternions
+  Quaternion<double> test_quat_one(0.2, 0.3, 0.4, 0.5);
+  Quaternion<double> test_quat_two(0.1, 0.2, 0.3, 0.4);
+  Quaternion<double> sum_quat = test_quat_one + test_quat_two;
+
+  EXPECT_NEAR(sum_quat.getX(), 0.3, 0.0001);
+  EXPECT_NEAR(sum_quat.getY(), 0.5, 0.0001);
+  EXPECT_NEAR(sum_quat.getZ(), 0.7, 0.0001);
+  EXPECT_NEAR(sum_quat.getW(), 0.9, 0.0001);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
