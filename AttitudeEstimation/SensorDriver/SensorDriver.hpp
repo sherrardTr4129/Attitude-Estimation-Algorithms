@@ -19,8 +19,8 @@
   (x * (EARTH_G_MSS / ACCEL_SENSITIVITY)) // convert from ADC reading to m/sec^s
 #define GYRO_TO_DEG_SEC(x)                                                     \
   (x * (1.0 / GYRO_SENSITIVITY)) // convert from ADC reading to deg/sec
-#define MAG_TO_uT(x)                                                           \
-  (x * (1.0 / MAG_SENSITIVITY)) // convert from ADC reading to uT
+#define MAG_TO_nT(x)                                                           \
+  (x * (1.0 / MAG_SENSITIVITY) * 1000) // convert from ADC reading to nT
 
 namespace filters {
 
@@ -232,9 +232,9 @@ public:
           {DEG_SEC_TO_RAD_SEC(GYRO_TO_DEG_SEC(this->_gyro->y()))},
           {DEG_SEC_TO_RAD_SEC(GYRO_TO_DEG_SEC(this->_gyro->z()))}};
       double magnetometer_readings[3][1] = {
-          {MAG_TO_uT(this->_magnetometer->x())},
-          {MAG_TO_uT(this->_magnetometer->y())},
-          {MAG_TO_uT(this->_magnetometer->z())}};
+          {MAG_TO_nT(this->_magnetometer->x())},
+          {MAG_TO_nT(this->_magnetometer->y())},
+          {MAG_TO_nT(this->_magnetometer->z())}};
 
       // construct matrix objects
       structures::Matrix<double, 3, 1> acc_mat(accelerometer_readings);
