@@ -102,6 +102,16 @@ TEST(QuaternionClassTesting, TestQuaternionConj) {
   EXPECT_NEAR(resQuat.getW(), 0.62633894, 0.0001);
 }
 
+TEST(QuaternionClassTesting, TestQuaternionAccesor) {
+  // create quaternion, make sure accessor returns the correct value
+  Quaternion<double> testAccessQuat(0.94064704, 0.12645116, 0.80194097, 0.62633894);
+
+  EXPECT_FLOAT_EQ(testAccessQuat.getX(), testAccessQuat[1]);
+  EXPECT_FLOAT_EQ(testAccessQuat.getY(), testAccessQuat[2]);
+  EXPECT_FLOAT_EQ(testAccessQuat.getZ(), testAccessQuat[3]);
+  EXPECT_FLOAT_EQ(testAccessQuat.getW(), testAccessQuat[0]);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

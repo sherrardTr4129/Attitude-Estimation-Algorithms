@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math.h>
+#include <stdint.h>
 
 namespace structures {
 template <typename T> class Quaternion {
@@ -184,6 +185,27 @@ public:
    * @param w the new W component value.
    */
   void setW(T w) { this->_w = w; }
+
+  /**
+   * @brief overide for accessor operator
+  */
+  T operator[](uint8_t i) {
+    T return_val;
+    if(i == 0){
+      return_val = this->getW();
+    }
+    else if(i == 1){
+      return_val = this->getX();
+    }
+    else if(i == 2){
+      return_val = this->getY();
+    }
+    else if(i == 3){
+      return_val = this->getZ();
+    }
+
+    return return_val;
+  }
 
 private:
   T _x;
