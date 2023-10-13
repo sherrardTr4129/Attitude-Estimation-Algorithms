@@ -1,4 +1,4 @@
-# :rocket: Attitude Estimation :airplane:
+# :rocket: Attitude Estimation Algorithms :airplane:
 Various different attitude estimation algorithms implemented for the Nicla Sense Me board.
 
 ## Overview
@@ -23,7 +23,7 @@ This data can be consumed and visualized by the visualization tool developed her
 ```bash
 python3 Visualizer.py "/dev/ttyACM0" 115200
 ```
-NOTE: please change the port and baud rate values as needed for your system implementation. 
+**NOTE:** please change the *port* and *baud rate* values as needed for your system implementation. 
 
 This should produce a window that looks something like this:
 
