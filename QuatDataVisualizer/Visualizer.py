@@ -3,18 +3,21 @@ from scipy.spatial.transform import Rotation
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import json
-import time
+import argparse
 import copy
 
 
 class DataVisualizer:
-    def __init__(self) -> None:
+    def __init__(self, port: str, baud: int) -> None:
         """
         class constructor
+
+        :param port: the serial port to try to open to read data from.
+        :param baud: the baud rate to use when reading from the port.
         """
         # serial communication members
-        self.serial_port = "/dev/ttyACM0"
-        self.baud_rate = 115200
+        self.serial_port = port
+        self.baud_rate = baud
         self.ser_man = SerialManager(self.serial_port, self.baud_rate)
 
         # matplot lib class members
@@ -248,5 +251,11 @@ class DataVisualizer:
 
 
 if __name__ == "__main__":
-    data_vis = DataVisualizer()
+    # get user input
+    parser = argparse.ArgumentParser()
+    parser.add_argument("port", type=str, help="the serial port to open")
+    parser.add_argument("baud", type=int, help="the serial baud to use")
+    args = parser.parse_args()
+
+    data_vis = DataVisualizer(port=args.port, baud=args.baud)
     data_vis.runViz()
