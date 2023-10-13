@@ -27,4 +27,4 @@ NOTE: please change the port and baud rate values as needed for your system impl
 
 This should produce a window that looks something like this:
 
-![Visualization](vizTool.png)
+![Visualization](https://github.com/sherrardTr4129/AttitudeEstimation/blob/main/img/vizTool.png?raw=true)
